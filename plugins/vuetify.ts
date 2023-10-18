@@ -14,7 +14,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     },
     defaults: {
       VTextField: {
-        hideDetails: 'auto',
+        hideDetails: false,
         color: 'primary',
         density: 'compact',
         variant: 'outlined'

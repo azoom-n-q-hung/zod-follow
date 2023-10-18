@@ -1,18 +1,12 @@
-export function generateModel (modelSettings: any) {
+import { FieldSettings } from '~/types/app'
+
+export function generateModel (modelSettings: FieldSettings) {
   return Object.keys(modelSettings).reduce((model: any, key: string) => {
     const setting = modelSettings[key]
-    if (setting.path) {
-      return {
-        ...model,
-        [key]: useField(setting.path, undefined, {
-          initialValue: setting.initialValue ?? null,
-          validateOnValueUpdate: setting.validateOnValueUpdate ?? false
-        })
-      }
-    }
+    const path = setting.path || key
     return {
       ...model,
-      [key]: useField(key, undefined, {
+      [key]: useField(path, undefined, {
         initialValue: setting.initialValue ?? null,
         validateOnValueUpdate: setting.validateOnValueUpdate ?? false
       })

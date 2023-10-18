@@ -4,8 +4,8 @@ export default defineNuxtConfig({
   ssr: false,
   app: {
     head: {
-      title: 'Abo',
-      meta: [{ name: 'description', content: 'Abo site' }]
+      title: 'Zod-Follow',
+      meta: [{ name: 'description', content: 'Zod-Follow site' }]
     }
   },
   css: [

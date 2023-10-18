@@ -1,13 +1,19 @@
 import ky from 'ky-universal'
-import { apis as zodiosApiDefinition } from '@azoom/abo'
+import { apis as zodiosApiDefinition } from '@azoom/zod-follow'
 // eslint-disable-next-line import/named
 import { KyZodios, KyPlugin } from 'zodios-plugin-ky'
 
 export default defineNuxtPlugin(() => {
   const runtimeConfig = useRuntimeConfig()
-  const aboApiClient = new KyZodios(runtimeConfig.public.API_BASE_URL, zodiosApiDefinition, { validate: 'none' })
-  aboApiClient.use(KyPlugin({ kyInstance: createAPI(runtimeConfig.public.API_BASE_URL) }))
-  const apis: any = { abo: aboApiClient }
+  const zodFollowApiClient = new KyZodios(
+    runtimeConfig.public.API_BASE_URL,
+    zodiosApiDefinition,
+    { validate: 'none' }
+  )
+  zodFollowApiClient.use(
+    KyPlugin({ kyInstance: createAPI(runtimeConfig.public.API_BASE_URL) })
+  )
+  const apis: any = { zodFollow: zodFollowApiClient }
 
   return {
     provide: { apis }
