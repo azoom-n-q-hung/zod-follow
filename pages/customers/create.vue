@@ -1,42 +1,43 @@
 <script lang="ts" setup>
 import { toTypedSchema } from '@vee-validate/zod'
-import { CustomerCreatePayloadSchema } from '~/store/customer'
+import type { FieldSettings } from '~/types/app'
+import { CustomerCreateSchema } from '~/types/customer'
 
 const customerCreateStore = useCustomerCreateStore()
 const { isLoading } = storeToRefs(customerCreateStore)
 
-const { handleSubmit } = useForm({ validationSchema: toTypedSchema(CustomerCreatePayloadSchema) })
-const fieldSettings: any = {
+const typeOptions = [
+  { label: 'Normal', value: 1 },
+  { label: 'Superman', value: 2 }
+]
+const statusOptions = [
+  { label: 'Active', value: true },
+  { label: 'Inactive', value: false }
+]
+
+const { handleSubmit } = useForm({
+  validationSchema: toTypedSchema(CustomerCreateSchema)
+})
+const fieldSettings: FieldSettings = {
   name: { initialValue: '' },
   nameKana: { initialValue: '' },
-  postalCode: { initialValue: '' },
-  address: { initialValue: '' },
-  subAddress: { initialValue: '' },
-  tel: { initialValue: '' },
-  fax: { initialValue: '' },
-  contactName1: { initialValue: '' },
-  contactTel1: { initialValue: '' },
-  contactMail1: { initialValue: '' },
-  contactName2: { initialValue: '' },
-  contactTel2: { initialValue: '' },
-  contactMail2: { initialValue: '' },
-  contactName3: { initialValue: '' },
-  contactTel3: { initialValue: '' },
-  contactMail3: { initialValue: '' },
-  memo1: { initialValue: '' },
-  memo2: { initialValue: '' }
+  age: { initialValue: '' },
+  email: { initialValue: '' },
+  birthday: { initialValue: '' },
+  type: { initialValue: 1 },
+  status: { initialValue: true }
 }
 const customer = generateModel(fieldSettings)
 
 const insertCustomer = handleSubmit(async (customer) => {
   await customerCreateStore.createCustomer(customer)
-  navigateTo('/customers')
+  alert('Customer created successfully')
 })
 </script>
 <template>
   <div class="page-customers-create">
     <h1 class="title">
-      顧客登録
+      Create Customer
     </h1>
     <v-form
       class="form-wrapper"
@@ -44,35 +45,89 @@ const insertCustomer = handleSubmit(async (customer) => {
       @submit.prevent="insertCustomer"
     >
       <v-text-field
-        v-model.lazy="customer.name.value.value"
+        v-model="customer.name.value.value"
         class="input -name"
-        :hide-details="false"
         :error-messages="customer.name.errorMessage.value"
         @blur="customer.name.validate"
       >
         <template #prepend>
-          <label class="label">顧客名<az-required-label /></label>
+          <label class="label">Name</label>
         </template>
       </v-text-field>
       <v-text-field
         v-model="customer.nameKana.value.value"
         class="input -namekana"
-        :hide-details="false"
         :error-messages="customer.nameKana.errorMessage.value"
         @blur="customer.nameKana.validate"
       >
         <template #prepend>
-          <label class="label">顧客名カナ</label>
+          <label class="label">Name Kana</label>
         </template>
       </v-text-field>
+      <v-text-field
+        v-model="customer.age.value.value"
+        class="input -age"
+        :error-messages="customer.age.errorMessage.value"
+        @blur="customer.age.validate"
+      >
+        <template #prepend>
+          <label class="label">Age</label>
+        </template>
+      </v-text-field>
+      <v-text-field
+        v-model="customer.email.value.value"
+        class="input -email"
+        :error-messages="customer.email.errorMessage.value"
+        @blur="customer.email.validate"
+      >
+        <template #prepend>
+          <label class="label">Email</label>
+        </template>
+      </v-text-field>
+      <v-text-field
+        v-model="customer.birthday.value.value"
+        type="date"
+        class="input -birthday"
+        :error-messages="customer.birthday.errorMessage.value"
+        @blur="customer.birthday.validate"
+      >
+        <template #prepend>
+          <label class="label">Birthday</label>
+        </template>
+      </v-text-field>
+      <v-select
+        v-model="customer.type.value.value"
+        class="input -type"
+        variant="outlined"
+        bg-color="white"
+        item-title="label"
+        item-value="value"
+        :items="typeOptions"
+      >
+        <template #prepend>
+          <strong class="label"> Type </strong>
+        </template>
+      </v-select>
+      <v-radio-group
+        v-model="customer.status.value.value"
+        inline
+        density="comfortable"
+        class="input -radio-group"
+      >
+        <template #prepend>
+          <strong class="label"> Status </strong>
+        </template>
+        <v-radio
+          v-for="(option, index) in statusOptions"
+          :key="`type-${index}`"
+          class="radio"
+          :label="option.label"
+          :value="option.value"
+        />
+      </v-radio-group>
       <div class="action">
-        <v-btn
-          class="button"
-          size="large"
-          :loading="isLoading"
-          @click="insertCustomer"
-        >
-          顧客情報を登録
+        <v-btn type="submit" class="button" size="large" :loading="isLoading">
+          Save
         </v-btn>
       </div>
     </v-form>
@@ -93,69 +148,17 @@ const insertCustomer = handleSubmit(async (customer) => {
   padding: 24px 56px;
   border-radius: 4px;
   background-color: rgb(var(--v-theme-on-primary));
-  > .input,
-  > .textarea,
-  > .linewrapper {
+  > .input {
     margin-bottom: 5px;
-  }
-  > .input.-name,
-  > .input.-namekana {
     min-width: 550px;
     max-width: 50%;
   }
-
-  > .textarea > :deep(.v-input__prepend),
   > .input > :deep(.v-input__prepend) {
     width: 110px;
     font-weight: 700;
   }
-  > .textarea > :deep(.v-input__prepend) {
-    padding: 0;
-  }
-  > .linewrapper {
-    display: flex;
-    gap: 15px;
-  }
-  > .linewrapper > .input.-postal {
-    max-width: 320px;
-  }
-  > .linewrapper > .input > :deep(.v-input__prepend) {
-    width: 110px;
-    font-weight: 700;
-  }
   > .action {
-    text-align: center;
-  }
-}
-
-.multiple-wrapper {
-  display: flex;
-  flex: 0 1 max(15%, 120px);
-  > .label {
-    width: 126px;
-    font-weight: 700;
-    line-height: 30px;
-  }
-  > .content {
-    flex: 1;
-  }
-  > .content > .wrapper {
-    display: flex;
-    gap: 40px;
-    margin-bottom: 5px;
-  }
-  > .content > .wrapper > .input {
-    &.-name,
-    &.-tel,
-    &.-fax {
-      width: 50%;
-    }
-    > :deep(.v-input__prepend) {
-      width: 100px;
-    }
-    + .input > :deep(.v-input__prepend) {
-      width: 60px;
-    }
+    text-align: right;
   }
 }
 </style>

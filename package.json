@@ -13,7 +13,7 @@
     "preview": "nuxt preview"
   },
   "dependencies": {
-    "@azoom/abo": "^1.0.61",
+    "@azoom/zod-follow": "^1.0.0-coreteam-3",
     "@pinia/nuxt": "^0.4.6",
     "@vee-validate/nuxt": "^4.9.5",
     "@vee-validate/zod": "^4.9.5",

@@ -15,10 +15,10 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@azoom/abo@^1.0.61":
-  version "1.0.61"
-  resolved "https://npm.pkg.github.com/download/@azoom/abo/1.0.61/9739db4f3b2c224c50b6a4d43c9fb2912fe0f91b#9739db4f3b2c224c50b6a4d43c9fb2912fe0f91b"
-  integrity sha512-7c4VMPVkhXMwtTBPe+bJO9B/OMZ917QmzLNjrMJ4mqJ49sGZnnyjag/YM8WL/jGyDXB/DZSS2gBWcC+c9ANF0Q==
+"@azoom/zod-follow@^1.0.0-coreteam-3":
+  version "1.0.0-team1-beta1"
+  resolved "https://npm.pkg.github.com/download/@azoom/zod-follow/1.0.0-team1-beta1/c27deee7bb98e4c74603fb18c3ef0768d001efd2#c27deee7bb98e4c74603fb18c3ef0768d001efd2"
+  integrity sha512-TTCCptDi/0co/280UvUxEqv+YwdJeeFL8oxcIwoPtaW515sehHi09X0h3+eWIsyoGVaRaHbMEqb8FQMck5xZcA==
   dependencies:
     "@zodios/core" "^10.7.7"
     zod "3.21.1"
